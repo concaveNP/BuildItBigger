@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.concavenp.nanodegree.jokes.Joke;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -40,7 +42,13 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void tellJoke(View view){
-        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
+
+        // Get the joke string
+        String joke = new Joke().getJoke();
+
+        // Place the joke for the user to see
+        Toast.makeText(this, joke, Toast.LENGTH_SHORT).show();
+
     }
 
 
