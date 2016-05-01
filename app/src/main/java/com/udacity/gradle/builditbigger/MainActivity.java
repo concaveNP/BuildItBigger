@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void tellJoke(View view){
 
+        /*
         // Get the joke string
         String joke = new Joke().getJoke();
 
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, JokeActivity.class);
         intent.putExtra(JokeActivity.JOKE_DATA, joke);
         startActivity(intent);
+        */
 
     }
 
