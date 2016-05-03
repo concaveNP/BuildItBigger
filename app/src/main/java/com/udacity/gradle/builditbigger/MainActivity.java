@@ -45,17 +45,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Callback for the Joke button.
+     *
+     * @param view - The Joke button
+     */
     public void tellJoke(View view){
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
-        /*
-        // Get the joke string
-        String joke = new Joke().getJoke();
 
-        // Create and start the details activity along with passing it the Movie Item details information via JSON string
-        Intent intent = new Intent(this, JokeActivity.class);
-        intent.putExtra(JokeActivity.JOKE_DATA, joke);
-        startActivity(intent);
-        */
+        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Unused for now"));
 
     }
 
