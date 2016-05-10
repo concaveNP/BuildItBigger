@@ -2,17 +2,20 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            minifyEnabled true
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

@@ -1,22 +1,47 @@
 apply plugin: 'com.android.application'
 
+// Load keystore
+def keystorePropertiesFile = rootProject.file("keystore.properties");
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
+
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     compileSdkVersion 23
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.udacity.gradle.builditbigger"
-        minSdkVersion 10
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
+        debug {
+            minifyEnabled true
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
+
+    productFlavors {
+
+    }
+
 }
 
 dependencies {
