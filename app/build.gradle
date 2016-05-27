@@ -20,7 +20,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.udacity.gradle.builditbigger"
+        applicationId "com.udacity.gradle.com.udacity.gradle.builditbigger.paid"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
@@ -30,7 +30,7 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
         }
         release {
             minifyEnabled true
@@ -41,7 +41,12 @@ android {
     }
 
     productFlavors {
-
+        paid {
+            applicationId "com.udacity.gradle.com.udacity.gradle.builditbigger.paid.paid"
+        }
+        free {
+            applicationId "com.udacity.gradle.com.udacity.gradle.builditbigger.paid.free"
+        }
     }
 
     dexOptions {
@@ -50,10 +55,15 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    // Added for AdMob
-    // Added as a Android library dependency
-    compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile project(path: ':backend', configuration: 'android-endpoints')
-    compile project(':androidlib')
+
+    // Added for AdMob
+    freeCompile 'com.google.android.gms:play-services:8.4.0'
+
+    // Google backend
+    paidCompile project(path: ':backend', configuration: 'android-endpoints')
+
+    // Added as a Android library dependency
+    paidCompile project(':androidlib')
 }
+

@@ -17,4 +17,11 @@
 #}
 #-keep public class com.concavenp.nanodegree.androidlib.JokeActivity
 -verbose
--dontwarn okio.**
+
+# From the documentation it sounds like this option is the nuclear one and to be
+# avoided if possible.  Just doing it now to get going as I've been
+# stuck on ProGuard for a while now.
+-ignorewarnings
+
+#-dontwarn okio.**
+#-dontwarn sun.misc.Unsafe
