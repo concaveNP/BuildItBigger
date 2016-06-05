@@ -1,0 +1,57 @@
+
+/////////////////////////////////////////////////////////
+The below example took a long time to figure out.  It is how you could have one task
+execute another via dependencies.  The critical point is the modules in gradle translate to
+(what I believe to be) package names in gradle.  "backend" in the case below is the specified
+package containing the task(s) for appengine stuff.
+/////////////////////////////////////////////////////////
+task runConnectedTest << {
+
+    print("sleeping...")
+    sleep(1000)
+
+    print("I'm asleep!")
+
+    sleep(1000)
+    println("done")
+
+}
+
+task runServer << {
+    println 'running Server'
+}
+runServer.dependsOn ':backend:appengineRun'
+
+task stopServer << {
+    println 'stopping Server'
+}
+stopServer.dependsOn ':backend:appengineStop'
+
+runConnectedTests.dependsOn runServer
+runConnectedTests.dependsOn stopServer
+stopServer.mustRunAfter runServer
+
+
+/////////////////////////////////////////////////////////
+The below example is executing a shell that will run the gradle task of stopping and starting
+the appengine server.  However,
+/////////////////////////////////////////////////////////
+task runServer(type: Exec) {
+    workingDir '..'
+    commandLine 'pwd'
+    commandLine './gradlew', 'appengineRun'
+    //commandLine 'echo', 'hello'
+
+}
+
+task stopServer(type: Exec) {
+    workingDir '..'
+    commandLine 'pwd'
+    commandLine './gradlew', 'appengineStop'
+    //commandLine 'echo', 'there'
+}
+
+runConnectedTests.dependsOn runServer
+stopServer.dependsOn runConnectedTests
+/////////////////////////////////////////////////////////
+

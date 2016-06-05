@@ -3,8 +3,8 @@ package com.udacity.gradle.builditbigger.paid;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.util.Pair;
 import android.util.Log;
+import android.util.Pair;
 
 import com.concavenp.nanodegree.androidlib.JokeActivity;
 import com.concavenp.nanodegree.backend.myApi.MyApi;
@@ -67,6 +67,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
         // Create and start the joke activity by giving the GCE result
         Intent intent = new Intent(context, JokeActivity.class);
         intent.putExtra(JokeActivity.JOKE_DATA, result);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
 
     }
