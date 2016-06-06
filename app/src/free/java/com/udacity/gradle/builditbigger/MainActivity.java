@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void tellJoke(View view){
 
+        // Show the please purchase message
         Toast.makeText(this, getString(R.string.toast_text), Toast.LENGTH_LONG).show();
 
     }
