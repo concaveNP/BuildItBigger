@@ -34,6 +34,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
         String result;
 
         if(myApiService == null) {  // Only do this once
+
             // This is the code that will simulate talking with the Google Deployed backend
             MyApi.Builder builder = new MyApi.Builder(
                     AndroidHttp.newCompatibleTransport(),
@@ -49,6 +50,12 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
                         }
                     });
             // end options for devappserver
+
+            Log.d(TAG, "-----------------------------------------");
+            Log.d(TAG, "Service path: " + builder.getServicePath());
+            Log.d(TAG, "Root URL: " + builder.getRootUrl());
+            Log.d(TAG, "Application Name: " + builder.getApplicationName());
+            Log.d(TAG, "-----------------------------------------");
 
             myApiService = builder.build();
         }
