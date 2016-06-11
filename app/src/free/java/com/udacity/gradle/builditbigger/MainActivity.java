@@ -7,8 +7,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,13 +22,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+
+                requestNewInterstitial();
+
+                // Show the please purchase message
+                Toast.makeText(MainActivity.this, getString(R.string.toast_text), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        requestNewInterstitial();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
 
     }
@@ -37,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -51,7 +77,28 @@ public class MainActivity extends AppCompatActivity {
      */
     public void tellJoke(View view){
 
-        Toast.makeText(this, getString(R.string.toast_text), Toast.LENGTH_LONG).show();
+        // Check to see if an add is ready to go
+        if (mInterstitialAd.isLoaded()) {
+
+            // Show the add
+            mInterstitialAd.show();
+
+        } else {
+
+            // Show the please purchase message
+            Toast.makeText(this, getString(R.string.toast_text), Toast.LENGTH_LONG).show();
+
+        }
+
+    }
+
+    private void requestNewInterstitial() {
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
 
     }
 

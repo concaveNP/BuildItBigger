@@ -28,6 +28,8 @@
         android:id="@+id/joke_TextView"
         android:layout_below="@+id/joke_label_TextView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
