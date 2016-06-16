@@ -1,26 +1,32 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private InterstitialAd mInterstitialAd;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        spinner = (ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -29,17 +35,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdClosed() {
 
-                requestNewInterstitial();
-
-                // Show the please purchase message
-                Toast.makeText(MainActivity.this, getString(R.string.toast_text), Toast.LENGTH_LONG).show();
+                showJoke();
 
             }
         });
 
         requestNewInterstitial();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,10 +87,25 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
-            // Show the please purchase message
-            Toast.makeText(this, getString(R.string.toast_text), Toast.LENGTH_LONG).show();
+            showJoke();
 
         }
+
+    }
+
+    private void showJoke() {
+
+        spinner.setVisibility(View.VISIBLE);
+
+        requestNewInterstitial();
+
+        // TODO: see if I really need this toast...
+//        // Show the please purchase message
+//        Toast.makeText(MainActivity.this, getString(R.string.toast_text), Toast.LENGTH_LONG).show();
+
+        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Unused for now"));
+
+        spinner.setVisibility(View.GONE);
 
     }
 

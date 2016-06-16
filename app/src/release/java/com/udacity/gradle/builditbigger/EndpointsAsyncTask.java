@@ -1,4 +1,4 @@
-package com.udacity.gradle.builditbigger.paid;
+package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +10,6 @@ import com.concavenp.nanodegree.androidlib.JokeActivity;
 import com.concavenp.nanodegree.backend.myApi.MyApi;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 
@@ -35,21 +33,9 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
 
         if(myApiService == null) {  // Only do this once
 
-            // This is the code that will simulate talking with the Google Deployed backend
-            MyApi.Builder builder = new MyApi.Builder(
-                    AndroidHttp.newCompatibleTransport(),
-                    new AndroidJsonFactory(), null)
-                    // options for running against local devappserver
-                    // - 10.0.2.2 is localhost's IP address in Android emulator
-                    // - turn off compression when running against local devappserver
-                    .setRootUrl("http://10.0.2.2:8080/_ah/api/")
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            // end options for devappserver
+            // This is the code that will talk with the Google Deployed backend
+            MyApi.Builder builder = new MyApi.Builder( AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+                    .setRootUrl("https://builditbigger-1301.appspot.com/_ah/api/");
 
             Log.d(TAG, "-----------------------------------------");
             Log.d(TAG, "Service path: " + builder.getServicePath());
@@ -71,6 +57,8 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
 
         } catch (IOException e) {
 
+            Log.d(TAG, "exception while performing API service call for joke: " + e.toString());
+
             result = e.getMessage();
 
         }
@@ -84,8 +72,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     @Override
     protected void onPostExecute(String result) {
 
-        // Create and start the joke activity by giving the GCE result.
-        // NOTE: Added the extra flag, because we are starting an activity outside of activity.
+        // Create and start the joke activity by giving the GCE result
         Intent intent = new Intent(context, JokeActivity.class);
         intent.putExtra(JokeActivity.JOKE_DATA, result);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

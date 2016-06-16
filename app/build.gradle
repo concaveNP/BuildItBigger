@@ -31,7 +31,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
     }
@@ -48,15 +48,19 @@ android {
 }
 
 dependencies {
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.3.0'
+
+    // Google backend (Google Endpoints)
+    compile project(path: ':backend', configuration: 'android-endpoints')
+
+    // Added as a Android library dependency (Android Activity to display the Joke)
+    compile project(':androidlib')
+
     // Added for AdMob
-    freeCompile 'com.google.android.gms:play-services:8.4.0'
     freeCompile 'com.google.android.gms:play-services:9.0.2'
-    // Google backend
-    paidCompile project(path: ':backend', configuration: 'android-endpoints')
-    // Added as a Android library dependency
-    paidCompile project(':androidlib')
+
 }
 
 /**
