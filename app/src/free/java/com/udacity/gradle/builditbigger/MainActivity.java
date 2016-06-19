@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -109,10 +108,6 @@ public class MainActivity extends AppCompatActivity {
     private void showJoke() {
 
         requestNewInterstitial();
-
-        // TODO: see if I really need this toast...
-//        // Show the please purchase message
-//        Toast.makeText(MainActivity.this, getString(R.string.toast_text), Toast.LENGTH_LONG).show();
 
         new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Unused for now"));
 
