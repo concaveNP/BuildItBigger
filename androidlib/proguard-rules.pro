@@ -16,4 +16,5 @@
 #   public *;
 #}
 -verbose
--dontwarn okio.**
+
+

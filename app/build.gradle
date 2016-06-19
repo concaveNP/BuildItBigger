@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-// Load keystore/
+// Load keystore from a properties file in the root of the project directory
 def keystorePropertiesFile = rootProject.file("keystore.properties");
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
@@ -18,20 +18,27 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
     defaultConfig {
+        applicationId "com.udacity.gradle.builditbigger"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        signingConfig signingConfigs.config
     }
     buildTypes {
         debug {
             minifyEnabled false
         }
         release {
-            minifyEnabled true
+
+            // OMG.  I don't even want to begin to explain how long it took to figure out that
+            // enabling this minify flag causes the endpoint to return nothing.  I'm guessing that
+            // a JSON parsing routine down under gets blasted away.  Or something close to that.
+            minifyEnabled false
+
             shrinkResources true
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
     }
@@ -50,13 +57,12 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.3.0'
+    // Google backend (Google Endpoints)
+    compile project(path: ':backend', configuration: 'android-endpoints')
+    // Added as a Android library dependency (Android Activity to display the Joke)
+    compile project(':androidlib')
     // Added for AdMob
-    freeCompile 'com.google.android.gms:play-services:8.4.0'
     freeCompile 'com.google.android.gms:play-services:9.0.2'
-    // Google backend
-    paidCompile project(path: ':backend', configuration: 'android-endpoints')
-    // Added as a Android library dependency
-    paidCompile project(':androidlib')
 }
 
 /**
@@ -88,7 +94,7 @@ class ExecWait extends DefaultTask {
         builder.redirectErrorStream(true)
 
         File loc = new File(directory);
-        println ("Location is: " + loc.getAbsolutePath());
+        println("Location is: " + loc.getAbsolutePath());
         builder.directory(loc);
         Process process = builder.start()
 
@@ -119,7 +125,7 @@ void freeAllPorts() {
         def cmd = "lsof -Fp -i :$port"
         def process = cmd.execute()
         process.in.eachLine { line ->
-            def killProcess = "kill -9 ${ line.substring(1) }".execute()
+            def killProcess = "kill -9 ${line.substring(1)}".execute()
             killProcess.waitFor()
             println "Dev App Engine Server has been stopped."
         }

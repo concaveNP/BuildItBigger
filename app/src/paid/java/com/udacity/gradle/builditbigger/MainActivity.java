@@ -8,9 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.udacity.gradle.builditbigger.paid.EndpointsAsyncTask;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
