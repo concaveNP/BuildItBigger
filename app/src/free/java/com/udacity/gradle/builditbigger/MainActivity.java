@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private InterstitialAd mInterstitialAd;
     private ProgressBar spinner;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -26,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         spinner = (ProgressBar)findViewById(R.id.progressBar);
-        spinner.setVisibility(View.GONE);
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -41,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         requestNewInterstitial();
+
+    }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+
+        // Starting of the activity means our spinner should not yet be visible
+        spinner.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -79,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void tellJoke(View view){
 
+        spinner.setVisibility(View.VISIBLE);
+
         // Check to see if an add is ready to go
         if (mInterstitialAd.isLoaded()) {
 
@@ -95,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void showJoke() {
 
-        spinner.setVisibility(View.VISIBLE);
-
         requestNewInterstitial();
 
         // TODO: see if I really need this toast...
@@ -104,8 +115,6 @@ public class MainActivity extends AppCompatActivity {
 //        Toast.makeText(MainActivity.this, getString(R.string.toast_text), Toast.LENGTH_LONG).show();
 
         new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Unused for now"));
-
-        spinner.setVisibility(View.GONE);
 
     }
 
