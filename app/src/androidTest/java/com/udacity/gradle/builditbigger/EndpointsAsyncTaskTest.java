@@ -1,4 +1,4 @@
-package com.udacity.gradle.builditbigger.paid;
+package com.udacity.gradle.builditbigger;
 
 import android.annotation.TargetApi;
 import android.test.AndroidTestCase;
@@ -36,8 +36,6 @@ public class EndpointsAsyncTaskTest extends AndroidTestCase {
 
     @TargetApi(16)
     public void testEndpointAsyncTask() throws InterruptedException {
-
-        new EndpointsAsyncTask().execute(new Pair<>(getContext(), "Unused for now"));
 
         EndpointsAsyncTask task = new EndpointsAsyncTask() {
             @Override
