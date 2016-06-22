@@ -1,6 +1,8 @@
 # BuildItBigger
 In this project, you will create an app with multiple flavors that uses multiple libraries and Google Cloud Endpoints. The finished app will consist of four modules:
 
+(Follow the work here: https://tree.taiga.io/project/concavenp-builditbigger)
+
 - A Java library that provides jokes
 - A Google Cloud Endpoints (GCE) project that serves those jokes
 - An Android Library containing an activity for displaying jokes
